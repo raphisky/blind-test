@@ -1,0 +1,63 @@
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+#image-container {
+  display: block;
+}
+
+
+#startGame, #countDownZone {
+  font-weight: 800;
+  font-size: 48px;
+  cursor: pointer;
+  display: inline-block;
+  width: 200px;
+  text-align: center;
+}
+
+.scoreBox {
+  width: 200px;
+  height: 200px;
+  z-index: 24071991;
+  text-align: center;
+}
+
+#zonePlayer1 {
+  display: inline-block;
+  float: left;
+}
+
+#zonePlayer2 {
+  display: inline-block;
+  float: right;
+}
+
+.container {
+  width: 100%;
+  display: inline-block;
+  margin: auto;
+  text-align: center;
+}
+
+.controls {
+  display: block;
+  margin-top: 20px;
+}
+
+#displayedImg {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 80vh;
+  width: auto;
+}
+
+.playerName {
+  font-weight: 800;
+  font-size: 32px;
+}
+
+#scorePlayer1, #scorePlayer2 {
+  font-size: 48px;
+}
