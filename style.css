@@ -7,18 +7,23 @@ body {
 }
 
 
-#startGame, #countDownZone {
+#countDown {
   font-weight: 800;
   font-size: 48px;
   cursor: pointer;
   display: inline-block;
-  width: 200px;
+  width: auto;
   text-align: center;
+}
+
+#startGame {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .scoreBox {
   width: 200px;
-  height: 200px;
   z-index: 24071991;
   text-align: center;
 }
@@ -31,6 +36,11 @@ body {
 #zonePlayer2 {
   display: inline-block;
   float: right;
+}
+
+.playerHighlighted {
+  background-color: black;
+  color: #FFFFFF;
 }
 
 .container {
@@ -49,7 +59,7 @@ body {
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
-  height: 80vh;
+  height: 70vh;
   width: auto;
 }
 
