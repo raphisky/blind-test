@@ -127,6 +127,10 @@ startGameButton.onclick = function() {
 
 // BUZZER
 
+// BUZZER SOUND
+var buzzerSoundPlayer1 = new Audio('foghi.mp3');
+var buzzerSoundPlayer2 = new Audio('foghi.mp3');
+
 // Initial state of the game
 var player1CanBuzz = true;
 var player2CanBuzz = true;
@@ -140,26 +144,51 @@ var whoHasBuzzed;
 
 function hasBuzzed(p) {
   if (p == 1 && player1CanBuzz) {
+    buzzerSoundPlayer1.play();
     stopCountDown();
     highlightPlayer(1);
-    player2CanBuzz = false;
+    cantBuzz();
+    // timeToAnswer(1);
     whoHasBuzzed = p;
     return whoHasBuzzed;
   }
 
   else if (p == 2 && player2CanBuzz) {
+    buzzerSoundPlayer2.play();
     stopCountDown();
     highlightPlayer(2);
-    player1CanBuzz = false;
+    cantBuzz();
+    // timeToAnswer(2);
     whoHasBuzzed = p;
     return whoHasBuzzed;
   }
 }
 
 function highlightPlayer(n) {
-  var playerToHighlight = document.getElementById("zonePlayer"+n);
+  var playerToHighlight = document.getElementById("zonePlayer"+ n );
   playerToHighlight.classList.toggle("playerHighlighted");
 }
+
+var answerTime = 0;
+
+function  timeToAnswer(p) {
+  var x = setInterval(function() {
+    if (answerTime < 3000) {
+      answerTime += 10;
+      timeLeftTranslatedToOpacity = 100 - ( 100 * answerTime ) / 3000;
+      var buzzerOpacity = timeLeftTranslatedToOpacity.toString();
+      console.log(buzzerOpacity);
+      document.getElementById("zonePlayer"+ p).opacity = buzzerOpacity;
+      return answerTime;
+    }
+
+    else {
+      console.log("time's up");
+      scoreDown(p);
+    }
+  }, 10);
+}
+
 
 
 function resetBuzzers() {
@@ -198,6 +227,25 @@ function scoreUp(p) {
   }
 }
 
+function scoreDown(p) {
+  if (p == whoHasBuzzed) {
+    if (p == "1") {
+      scorePlayer1 -= 1;
+      zoneScorePlayer1.textContent = scorePlayer1;
+      highlightPlayer(1);
+      startGame();
+      return scorePlayer1;
+    }
+    else if (p == "2") {
+      scorePlayer2 -= 1;
+      zoneScorePlayer2.textContent = scorePlayer2;
+      highlightPlayer(2);
+      startGame();
+      return scorePlayer2;
+    }
+  }
+}
+
 ///////////////////////////////////
 
 var isPaused = false;
@@ -210,6 +258,14 @@ $(document).keydown(function(e) {
 
     case 39: //right arrow key // score player 2
       scoreUp(2);
+      break;
+
+    case 67: // C key // downscore player 1
+      scoreDown(1);
+      break;
+
+    case 86: // V key // downscore player 2
+      scoreDown(2);
       break;
 
     case 32: // up arrow key // pause
@@ -241,6 +297,7 @@ $(document).keydown(function(e) {
     }
     // add skip when no one finds that displays something mean
 });
+
 
 var countDown = document.getElementById("countDown");
 
