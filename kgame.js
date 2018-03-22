@@ -228,5 +228,5 @@ function stopCountDown() {
 
 
 // PROGRESS BAR
-// var ProgressBar = require(['progressbar.min.js']);
-// var line = new ProgressBar.Line('progressBarContainer');
+var ProgressBar = require(['progressbar.min.js']);
+var line = new ProgressBar.Line('progressBarContainer');
