@@ -48,7 +48,8 @@ function setPlayerNames() {
 var gameMaxScore = 11;
 function setGameScore() {
   gameMaxScore = document.getElementById("gameScoreInput").value;
-  console.log("Game is in "+ gameMaxScore);
+  console.log("Game is in "+ gameMaxScore + " points");
+  return gameMaxScore;
 }
 
 // Time
@@ -80,8 +81,9 @@ function setupGame() {
 var level = 0;
 
 function startGame() {
+  console.log("Round" + level + " || Player 1: "+ scorePlayer1 + "|| Player 2: "+ scorePlayer2);
   if (gameIsSetup) {
-    if (scorePlayer1 < gameMaxScore || scorePlayer2 < gameMaxScore) {
+    if ( (scorePlayer1 < gameMaxScore) && (scorePlayer2 < gameMaxScore) ) {
       resetBuzzers();
       startCountDown(timeAvailable);
       displayImg(level);
@@ -91,10 +93,12 @@ function startGame() {
     }
     else if (scorePlayer1 == gameMaxScore ) {
       console.log("Player 1 wins!");
+      player1.innerHTML = "👑 " + document.getElementById("playerInput1").value + " 👑";
     }
 
     else if (scorePlayer2 == gameMaxScore) {
       console.log("Player 2 wins");
+      player2.innerHTML = "👑 " + document.getElementById("playerInput2").value + " 👑";
     }
     else {
       console.log("Game oveeer !")
