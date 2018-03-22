@@ -6,6 +6,13 @@ body {
   display: block;
 }
 
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  border: 2px solid black;
+  margin: 10px;
+  padding: 3px;
+}
 
 #countDown {
   font-weight: 800;
@@ -17,9 +24,21 @@ body {
 }
 
 #startGame {
-  position: absolute;
-  top: 0;
-  left: 0;
+}
+
+#playerSelection {
+  width: 100%;
+  float: left;
+}
+
+#gameSetup {
+  width: 100%;
+  display: block;
+  float: left;
+}
+
+.controls span {
+  font-weight: 600;
 }
 
 .scoreBox {
@@ -51,9 +70,18 @@ body {
 }
 
 .controls {
+  position: absolute;
+  top: 10;
+  left: 10;
+  text-align: left;
+  border: 2px solid black;
+  width: 300px;
   display: block;
-  margin-top: 20px;
+  padding: 10px;
+  height: 230px;
 }
+
+
 
 #displayedImg {
   display: inline-block;
@@ -62,6 +90,8 @@ body {
   height: 70vh;
   width: auto;
 }
+
+
 
 .playerName {
   font-weight: 800;

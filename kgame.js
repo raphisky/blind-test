@@ -33,22 +33,83 @@ function displayImg(key) {
   displayedImg.setAttribute("src",imgUrl);
 }
 
+// Game Setup
+
+// Player names
+var player1 = document.getElementById("player1");
+var player2 = document.getElementById("player2");
+
+function setPlayerNames() {
+  player1.innerHTML = document.getElementById("playerInput1").value;
+  player2.innerHTML = document.getElementById("playerInput2").value;
+}
+
+// Score
+var gameMaxScore = 11;
+function setGameScore() {
+  gameMaxScore = document.getElementById("gameScoreInput").value;
+  console.log("Game is in "+ gameMaxScore);
+}
+
+// Time
+var timeAvailable = 4000;
+function setTime() {
+  var timeInput = document.getElementById("gameTimeInput").value;
+  timeAvailable = Number(timeInput);
+  // timeAvailable = 4000;
+  console.log(timeAvailable);
+}
+
+// Setup Game
+var gameIsSetup = false;
+var initiateGameSetup = document.getElementById("setupGame");
+
+initiateGameSetup.onclick = function() {
+  setupGame();
+};
+
+function setupGame() {
+  setPlayerNames();
+  setTime();
+  setGameScore();
+  gameIsSetup = true;
+  return gameIsSetup;
+}
+
 // Start Game
 var level = 0;
 
 function startGame() {
-  resetBuzzers();
-  startCountDown(timeAvailable);
-  displayImg(level);
-  level += 1;
-  console.log(level);
-  return level;
+  if (gameIsSetup) {
+    if (scorePlayer1 < gameMaxScore || scorePlayer2 < gameMaxScore) {
+      resetBuzzers();
+      startCountDown(timeAvailable);
+      displayImg(level);
+      level += 1;
+      console.log(level);
+      return level;
+    }
+    else if (scorePlayer1 == gameMaxScore ) {
+      console.log("Player 1 wins!");
+    }
+
+    else if (scorePlayer2 == gameMaxScore) {
+      console.log("Player 2 wins");
+    }
+    else {
+      console.log("Game oveeer !")
+    }
+  }
+  else {
+    console.log("Please setup game")
+  }
 }
 
 // Get dom elements
 
 var startGameButton = document.getElementById("startGame");
 var displayedImg = document.getElementById("displayedImg");
+var controlZone = document.getElementById("controls");
 var player1 = document.getElementById("player1");
 var player2 = document.getElementById("player2");
 var zoneScorePlayer1 = document.getElementById("scorePlayer1");
@@ -57,6 +118,7 @@ var zoneScorePlayer2 = document.getElementById("scorePlayer2");
 
 startGameButton.onclick = function() {
   startGame();
+  $('.controls').hide();
 };
 
 // BUZZER
@@ -146,7 +208,7 @@ $(document).keydown(function(e) {
       scoreUp(2);
       break;
 
-    case 38: // up arrow key // pause
+    case 32: // up arrow key // pause
       if (!isPaused) {
         stopCountDown();
       }
@@ -178,7 +240,6 @@ $(document).keydown(function(e) {
 
 var countDown = document.getElementById("countDown");
 
-var timeAvailable = 4000;
 var distance;
 var x;
 

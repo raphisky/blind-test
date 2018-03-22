@@ -13,6 +13,33 @@
 
     <div class="container">
 
+      <div class="controls">
+        <div id="playerSelection">
+          <span>JOUEURS</span> <br>
+          <input class="playerInput" id="playerInput1" type="text" name="" value="NOM JOUEUR 1"> &nbsp;
+          <input class="playerInput" id="playerInput2" type="text" name="" value="NOM JOUEUR 2">
+          <br>
+          <br>
+        </div>
+
+        <div id="gameSetup">
+          <span>FIRST PLAYER TO:</span> <br>
+          <input class="playerInput" id="gameScoreInput" type="text" name="" value=""> <br>
+          <br>
+
+          <span>TIME PER ROUND (MS)</span> <br>
+          <input class="playerInput" id="gameTimeInput" type="text" name="" value=""> <br>
+
+        </div>
+
+        <div class="source_images">
+          <a href="https://docs.google.com/spreadsheets/d/1neBPd5rdfK2MvMv-iSksqSMRvBJFSjkcSRNBj8sJMko/edit#gid=0" target="_blank">Images</a>
+        </div>
+        <span id="setupGame" class="btn">SET UP GAME</span> &nbsp;<span id="startGame" class="btn">START</span>
+
+
+      </div>
+
       <div id="image-container">
         <img src="" id="displayedImg">
       </div>
@@ -26,9 +53,7 @@
         <span id="scorePlayer2">0</span>
       </div>
 
-      <div class="controls">
-        <span id="startGame">START</span> <br>
-      </div>
+
       <div id="countDownContainer">
         <span id="countDown">00:00</span>
       </div>
