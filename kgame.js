@@ -84,6 +84,7 @@ function startGame() {
   console.log("Round" + level + " || Player 1: "+ scorePlayer1 + "|| Player 2: "+ scorePlayer2);
   if (gameIsSetup) {
     if ( (scorePlayer1 < gameMaxScore) && (scorePlayer2 < gameMaxScore) ) {
+      $('#buzzerImgContainer').css({"display" : "none"});
       resetBuzzers();
       startCountDown(timeAvailable);
       displayImg(level);
@@ -145,21 +146,17 @@ var whoHasBuzzed;
 function hasBuzzed(p) {
   if (p == 1 && player1CanBuzz) {
     buzzerSoundPlayer1.play();
-    stopCountDown();
-    highlightPlayer(1);
-    cantBuzz();
+    $('#buzzerImgContainer').css({  "display" : "inline-block", "left" : "10px" });
+    timeToAnswer(1);
     whoHasBuzzed = p;
-    // timeToAnswer(1);
     return whoHasBuzzed;
   }
 
   else if (p == 2 && player2CanBuzz) {
     buzzerSoundPlayer2.play();
-    stopCountDown();
-    highlightPlayer(2);
-    cantBuzz();
+    $('#buzzerImgContainer').css({  "display" : "inline-block", "right" : "10px" });
+    timeToAnswer(2);
     whoHasBuzzed = p;
-    // timeToAnswer(2);
     return whoHasBuzzed;
   }
 }
@@ -170,21 +167,31 @@ function highlightPlayer(n) {
 }
 
 var answerTime = 0;
+var y;
 
 function  timeToAnswer(p) {
-  var x = setInterval(function() {
-    if ( p == whoHasBuzzed && answerTime < 3000) {
-      answerTime += 10;
-      timeLeftTranslatedToOpacity = Math.floor(100 - ( 100 * answerTime ) / 3000);
-      var buzzerOpacity = timeLeftTranslatedToOpacity.toString();
+  cantBuzz();
+  highlightPlayer(p);
+  stopCountDown();
+  y = setInterval(function() {
+    answerTime += 100;
+    if (answerTime < 3000) {
+      console.log(answerTime);
+      return answerTime;
     }
-
-    else {
+    else if (answerTime == 3000) {
+      clearInterval(y);
+      console.log("time's up");
+      $('#buzzerImgContainer').css({"display" : "none"});
+      player1CanBuzz = true;
+      player2CanBuzz = false;
+      answerTime = 0;
       scoreDown(p);
+      // startCountDown(distance);
+      return answerTime;
     }
-  }, 10);
+  }, 100);
 }
-
 
 
 function resetBuzzers() {
@@ -205,6 +212,7 @@ var scorePlayer1 = 0;
 var scorePlayer2 = 0;
 
 function scoreUp(p) {
+  clearInterval(y);
   if (p == whoHasBuzzed) {
     if (p == "1") {
       scorePlayer1 += 1;
@@ -225,6 +233,7 @@ function scoreUp(p) {
 
 function scoreDown(p) {
   if (p == whoHasBuzzed) {
+    clearInterval(y);
     if (p == "1") {
       scorePlayer1 -= 1;
       zoneScorePlayer1.textContent = scorePlayer1;
@@ -267,11 +276,11 @@ $(document).keydown(function(e) {
       break;
 
     case 67: // C key // downscore player 1
-      scoreDown(1);
+      // scoreDown(1);
       break;
 
     case 86: // V key // downscore player 2
-      scoreDown(2);
+      // scoreDown(2);
       break;
 
     case 32: // up arrow key // pause
@@ -282,11 +291,13 @@ $(document).keydown(function(e) {
         if (whoHasBuzzed == 1) {
           player1CanBuzz = false;
           player2CanBuzz = true;
+          $('#buzzerImgContainer').css({"display" : "none"});
           highlightPlayer(1);
         }
         else if (whoHasBuzzed == 2) {
           player1CanBuzz = true;
           player2CanBuzz = false;
+          $('#buzzerImgContainer').css({"display" : "none"});
           highlightPlayer(2);
         }
         startCountDown(distance);
@@ -312,8 +323,6 @@ var x;
 
 function startCountDown(t) {
   isPaused = false;
-  // reset distance
-  // distance = timeAvailable;
 
   // Set the date we're counting down to
   var d = new Date();
