@@ -148,8 +148,8 @@ function hasBuzzed(p) {
     stopCountDown();
     highlightPlayer(1);
     cantBuzz();
-    // timeToAnswer(1);
     whoHasBuzzed = p;
+    // timeToAnswer(1);
     return whoHasBuzzed;
   }
 
@@ -158,8 +158,8 @@ function hasBuzzed(p) {
     stopCountDown();
     highlightPlayer(2);
     cantBuzz();
-    // timeToAnswer(2);
     whoHasBuzzed = p;
+    // timeToAnswer(2);
     return whoHasBuzzed;
   }
 }
@@ -173,17 +173,13 @@ var answerTime = 0;
 
 function  timeToAnswer(p) {
   var x = setInterval(function() {
-    if (answerTime < 3000) {
+    if ( p == whoHasBuzzed && answerTime < 3000) {
       answerTime += 10;
-      timeLeftTranslatedToOpacity = 100 - ( 100 * answerTime ) / 3000;
+      timeLeftTranslatedToOpacity = Math.floor(100 - ( 100 * answerTime ) / 3000);
       var buzzerOpacity = timeLeftTranslatedToOpacity.toString();
-      console.log(buzzerOpacity);
-      document.getElementById("zonePlayer"+ p).opacity = buzzerOpacity;
-      return answerTime;
     }
 
     else {
-      console.log("time's up");
       scoreDown(p);
     }
   }, 10);
@@ -244,6 +240,16 @@ function scoreDown(p) {
       return scorePlayer2;
     }
   }
+}
+
+function changeScore(p,d) {
+  console.log(eval("scorePlayer" + p) + d);
+  changeScoreToPlayer = eval("scorePlayer" + p);
+  changeScoreToPlayer += d;
+  document.getElementById("scorePlayer" + p).textContent = changeScoreToPlayer;
+  highlightPlayer(p);
+  startGame();
+  return eval("scorePlayer" + p);
 }
 
 ///////////////////////////////////

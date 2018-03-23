@@ -60,6 +60,7 @@ body {
 .playerHighlighted {
   background-color: black;
   color: #FFFFFF;
+  opacity: 1;
 }
 
 .container {
