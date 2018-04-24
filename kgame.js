@@ -154,7 +154,7 @@ function hasBuzzed(p) {
 
   else if (p == 2 && player2CanBuzz) {
     buzzerSoundPlayer2.play();
-    $('#buzzerImgContainer').css({  "display" : "inline-block", "right" : "10px" });
+    $('#buzzerImgContainer').css({  "display" : "inline-block", "left" : $(window).width() - 200 });
     timeToAnswer(2);
     whoHasBuzzed = p;
     return whoHasBuzzed;
@@ -166,6 +166,7 @@ function highlightPlayer(n) {
   playerToHighlight.classList.toggle("playerHighlighted");
 }
 
+var gaugeHeight;
 var answerTime = 0;
 var y;
 
@@ -176,7 +177,8 @@ function  timeToAnswer(p) {
   y = setInterval(function() {
     answerTime += 100;
     if (answerTime < 3000) {
-      console.log(answerTime);
+      gaugeHeight = Math.floor((answerTime * 170) / 3000);
+      $('#gauge').css({"height" : gaugeHeight});
       return answerTime;
     }
     else if (answerTime == 3000) {
@@ -185,6 +187,7 @@ function  timeToAnswer(p) {
       $('#buzzerImgContainer').css({"display" : "none"});
       player1CanBuzz = true;
       player2CanBuzz = false;
+      gaugeHeight = 0;
       answerTime = 0;
       scoreDown(p);
       // startCountDown(distance);
@@ -361,9 +364,3 @@ function stopCountDown() {
   isPaused = true;
   return distance;
 }
-
-
-
-// PROGRESS BAR
-// var ProgressBar = require(['progressbar.min.js']);
-// var line = new ProgressBar.Line('progressBarContainer');

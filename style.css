@@ -61,7 +61,7 @@ body {
 }
 
 #buzzerImg {
-
+  padding-top: 8px;
   width: 130px;
   height: auto;
   animation: shake 0.5s;
@@ -69,10 +69,25 @@ body {
 }
 
 #buzzerImgContainer {
-  width: 130px;
+  overflow: hidden;
+  border: 10px solid black;
+  background: white;
+  border-radius: 50%;;
+  width: 170px;
+  height: 170px;
   display: none;
   transform: rotate(-20deg);
   position: absolute;
+}
+
+#gauge {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  height: 170px;
+  background: red;
+  width: 100%;
+  overflow: hidden;
 }
 
 @keyframes shake {
