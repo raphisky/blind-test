@@ -129,8 +129,8 @@ startGameButton.onclick = function() {
 // BUZZER
 
 // BUZZER SOUND
-var buzzerSoundPlayer1 = new Audio('foghi.mp3');
-var buzzerSoundPlayer2 = new Audio('foghi.mp3');
+var buzzerSoundPlayer1 = new Audio('goblin.mp3');
+var buzzerSoundPlayer2 = new Audio('parrot.mp3');
 
 // Initial state of the game
 var player1CanBuzz = true;
