@@ -146,12 +146,14 @@ var whoHasBuzzed;
 function hasBuzzed(p) {
   if (p == 1 && player1CanBuzz) {
     buzzerSoundPlayer1.play();
+    canSetScoreFor = 1;
     $('#buzzerImgContainer').css({  "display" : "inline-block", "left" : "10px" });
     timeToAnswer(1);
   }
 
   else if (p == 2 && player2CanBuzz) {
     buzzerSoundPlayer2.play();
+    canSetScoreFor = 2;
     $('#buzzerImgContainer').css({  "display" : "inline-block", "left" : $(window).width() - 200 });
     timeToAnswer(2);
   }
@@ -164,7 +166,7 @@ function highlightPlayer(n) {
   playerToHighlight.classList.toggle("playerHighlighted");
 }
 
-var canSetScore = false;
+var canSetScoreFor;
 var gaugeHeight;
 var answerTime = 0;
 var y;
@@ -176,7 +178,6 @@ function timeToAnswer(p) {
   y = setInterval(function() {
     answerTime += 100;
     if (answerTime < 3000) {
-      canSetScore = true;
       setGaugeHeight(answerTime);
       return answerTime;
     }
@@ -186,7 +187,6 @@ function timeToAnswer(p) {
       $('#buzzerImgContainer').css({"display" : "none"});
       player1CanBuzz = true;
       player2CanBuzz = false;
-      canSetScore = false;
       gaugeHeight = 0;
       answerTime = 0;
       scoreDown(p);
@@ -218,7 +218,7 @@ var scorePlayer1 = 0;
 var scorePlayer2 = 0;
 
 function scoreUp(p) {
-  if (canSetScore) {
+  if (canSetScoreFor == p ) {
     clearInterval(y);
     answerTime = 0;
     setGaugeHeight(answerTime);
