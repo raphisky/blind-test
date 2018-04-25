@@ -31,6 +31,7 @@ body {
 }
 
 #startGame {
+  display: none;
 }
 
 #playerSelection {
@@ -123,12 +124,12 @@ body {
   position: absolute;
   text-align: left;
   border: 2px solid black;
-  width: 300px;
+  width: 380px;
   bottom: 10px;
   left: 10px;
   display: block;
   padding: 10px;
-  height: 230px;
+  height: auto;
 }
 
 
@@ -173,7 +174,7 @@ body {
   display: inline-block;
   float: left;
   padding-right: 20px;
-  border-right: 2px dotted #222222;
+  border-right: 2px solid #222222;
 }
 
 #zonePlayer2 {
@@ -181,5 +182,5 @@ body {
   display: inline-block;
   float: right;
   padding-left: 20px;
-  border-left: 2px dotted #222222;
+  border-left: 2px solid #222222;
 }

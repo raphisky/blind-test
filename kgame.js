@@ -45,7 +45,6 @@ function setPlayerNames() {
 }
 
 // Score
-var gameMaxScore = 11;
 function setGameScore() {
   gameMaxScore = document.getElementById("gameScoreInput").value;
   console.log("Game is in "+ gameMaxScore + " points");
@@ -66,6 +65,7 @@ var gameIsSetup = false;
 var initiateGameSetup = document.getElementById("setupGame");
 
 initiateGameSetup.onclick = function() {
+  $('#startGame').css({"display" : "inline-block"});
   setupGame();
 };
 
@@ -102,11 +102,11 @@ function startGame() {
       player2.innerHTML = "👑 " + document.getElementById("playerInput2").value + " 👑";
     }
     else {
-      console.log("Game oveeer !")
+      console.log("Game oveeer !");
     }
   }
   else {
-    console.log("Please setup game")
+    console.log("Please setup game");
   }
 }
 
@@ -148,17 +148,15 @@ function hasBuzzed(p) {
     buzzerSoundPlayer1.play();
     $('#buzzerImgContainer').css({  "display" : "inline-block", "left" : "10px" });
     timeToAnswer(1);
-    whoHasBuzzed = p;
-    return whoHasBuzzed;
   }
 
   else if (p == 2 && player2CanBuzz) {
     buzzerSoundPlayer2.play();
     $('#buzzerImgContainer').css({  "display" : "inline-block", "left" : $(window).width() - 200 });
     timeToAnswer(2);
-    whoHasBuzzed = p;
-    return whoHasBuzzed;
   }
+  whoHasBuzzed = p;
+  return whoHasBuzzed;
 }
 
 function highlightPlayer(n) {
@@ -170,15 +168,14 @@ var gaugeHeight;
 var answerTime = 0;
 var y;
 
-function  timeToAnswer(p) {
+function timeToAnswer(p) {
   cantBuzz();
   highlightPlayer(p);
   stopCountDown();
   y = setInterval(function() {
     answerTime += 100;
     if (answerTime < 3000) {
-      gaugeHeight = Math.floor((answerTime * 170) / 3000);
-      $('#gauge').css({"height" : gaugeHeight});
+      setGaugeHeight(answerTime);
       return answerTime;
     }
     else if (answerTime == 3000) {
@@ -190,12 +187,15 @@ function  timeToAnswer(p) {
       gaugeHeight = 0;
       answerTime = 0;
       scoreDown(p);
-      // startCountDown(distance);
       return answerTime;
     }
   }, 100);
 }
 
+function setGaugeHeight(h) {
+  gaugeHeight = Math.floor((h * 170) / 3000);
+  $('#gauge').css({"height" : gaugeHeight});
+}
 
 function resetBuzzers() {
   player1CanBuzz = true;
@@ -216,6 +216,8 @@ var scorePlayer2 = 0;
 
 function scoreUp(p) {
   clearInterval(y);
+  answerTime = 0;
+  setGaugeHeight(answerTime);
   if (p == whoHasBuzzed) {
     if (p == "1") {
       scorePlayer1 += 1;
@@ -241,14 +243,16 @@ function scoreDown(p) {
       scorePlayer1 -= 1;
       zoneScorePlayer1.textContent = scorePlayer1;
       highlightPlayer(1);
-      startGame();
+      startCountDown(distance);
+      player2CanBuzz = true;
       return scorePlayer1;
     }
     else if (p == "2") {
       scorePlayer2 -= 1;
       zoneScorePlayer2.textContent = scorePlayer2;
       highlightPlayer(2);
-      startGame();
+      startCountDown(distance);
+      player1CanBuzz = true;
       return scorePlayer2;
     }
   }
@@ -308,12 +312,17 @@ $(document).keydown(function(e) {
       break;
 
     case 81: // Q key || player 1 buzzer
+      if (gameIsSetup) {
         hasBuzzed(1);
-        break;
+      }
+      break;
+
 
     case 77: // M key || player 2 buzzer
-        hasBuzzed(2);
-        break;
+      if (gameIsSetup) {
+      hasBuzzed(2);
+      }
+      break;
     }
     // add skip when no one finds that displays something mean
 });
