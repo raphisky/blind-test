@@ -45,7 +45,6 @@ function setPlayerNames() {
 }
 
 // Score
-var gameMaxScore = 11;
 function setGameScore() {
   gameMaxScore = document.getElementById("gameScoreInput").value;
   console.log("Game is in "+ gameMaxScore + " points");
@@ -66,6 +65,7 @@ var gameIsSetup = false;
 var initiateGameSetup = document.getElementById("setupGame");
 
 initiateGameSetup.onclick = function() {
+  $('#startGame').css({"display" : "inline-block"});
   setupGame();
 };
 
@@ -84,6 +84,7 @@ function startGame() {
   console.log("Round" + level + " || Player 1: "+ scorePlayer1 + "|| Player 2: "+ scorePlayer2);
   if (gameIsSetup) {
     if ( (scorePlayer1 < gameMaxScore) && (scorePlayer2 < gameMaxScore) ) {
+      $('#buzzerImgContainer').css({"display" : "none"});
       resetBuzzers();
       startCountDown(timeAvailable);
       displayImg(level);
@@ -101,11 +102,11 @@ function startGame() {
       player2.innerHTML = "👑 " + document.getElementById("playerInput2").value + " 👑";
     }
     else {
-      console.log("Game oveeer !")
+      console.log("Game oveeer !");
     }
   }
   else {
-    console.log("Please setup game")
+    console.log("Please setup game");
   }
 }
 
@@ -128,8 +129,8 @@ startGameButton.onclick = function() {
 // BUZZER
 
 // BUZZER SOUND
-var buzzerSoundPlayer1 = new Audio('foghi.mp3');
-var buzzerSoundPlayer2 = new Audio('foghi.mp3');
+var buzzerSoundPlayer1 = new Audio('goblin.mp3');
+var buzzerSoundPlayer2 = new Audio('parrot.mp3');
 
 // Initial state of the game
 var player1CanBuzz = true;
@@ -145,23 +146,17 @@ var whoHasBuzzed;
 function hasBuzzed(p) {
   if (p == 1 && player1CanBuzz) {
     buzzerSoundPlayer1.play();
-    stopCountDown();
-    highlightPlayer(1);
-    cantBuzz();
-    whoHasBuzzed = p;
-    // timeToAnswer(1);
-    return whoHasBuzzed;
+    $('#buzzerImgContainer').css({  "display" : "inline-block", "left" : "10px" });
+    timeToAnswer(1);
   }
 
   else if (p == 2 && player2CanBuzz) {
     buzzerSoundPlayer2.play();
-    stopCountDown();
-    highlightPlayer(2);
-    cantBuzz();
-    whoHasBuzzed = p;
-    // timeToAnswer(2);
-    return whoHasBuzzed;
+    $('#buzzerImgContainer').css({  "display" : "inline-block", "left" : $(window).width() - 200 });
+    timeToAnswer(2);
   }
+  whoHasBuzzed = p;
+  return whoHasBuzzed;
 }
 
 function highlightPlayer(n) {
@@ -169,23 +164,38 @@ function highlightPlayer(n) {
   playerToHighlight.classList.toggle("playerHighlighted");
 }
 
+var gaugeHeight;
 var answerTime = 0;
+var y;
 
-function  timeToAnswer(p) {
-  var x = setInterval(function() {
-    if ( p == whoHasBuzzed && answerTime < 3000) {
-      answerTime += 10;
-      timeLeftTranslatedToOpacity = Math.floor(100 - ( 100 * answerTime ) / 3000);
-      var buzzerOpacity = timeLeftTranslatedToOpacity.toString();
+function timeToAnswer(p) {
+  cantBuzz();
+  highlightPlayer(p);
+  stopCountDown();
+  y = setInterval(function() {
+    answerTime += 100;
+    if (answerTime < 3000) {
+      setGaugeHeight(answerTime);
+      return answerTime;
     }
-
-    else {
+    else if (answerTime == 3000) {
+      clearInterval(y);
+      console.log("time's up");
+      $('#buzzerImgContainer').css({"display" : "none"});
+      player1CanBuzz = true;
+      player2CanBuzz = false;
+      gaugeHeight = 0;
+      answerTime = 0;
       scoreDown(p);
+      return answerTime;
     }
-  }, 10);
+  }, 100);
 }
 
-
+function setGaugeHeight(h) {
+  gaugeHeight = Math.floor((h * 170) / 3000);
+  $('#gauge').css({"height" : gaugeHeight});
+}
 
 function resetBuzzers() {
   player1CanBuzz = true;
@@ -205,6 +215,9 @@ var scorePlayer1 = 0;
 var scorePlayer2 = 0;
 
 function scoreUp(p) {
+  clearInterval(y);
+  answerTime = 0;
+  setGaugeHeight(answerTime);
   if (p == whoHasBuzzed) {
     if (p == "1") {
       scorePlayer1 += 1;
@@ -225,18 +238,21 @@ function scoreUp(p) {
 
 function scoreDown(p) {
   if (p == whoHasBuzzed) {
+    clearInterval(y);
     if (p == "1") {
       scorePlayer1 -= 1;
       zoneScorePlayer1.textContent = scorePlayer1;
       highlightPlayer(1);
-      startGame();
+      startCountDown(distance);
+      player2CanBuzz = true;
       return scorePlayer1;
     }
     else if (p == "2") {
       scorePlayer2 -= 1;
       zoneScorePlayer2.textContent = scorePlayer2;
       highlightPlayer(2);
-      startGame();
+      startCountDown(distance);
+      player1CanBuzz = true;
       return scorePlayer2;
     }
   }
@@ -267,11 +283,11 @@ $(document).keydown(function(e) {
       break;
 
     case 67: // C key // downscore player 1
-      scoreDown(1);
+      // scoreDown(1);
       break;
 
     case 86: // V key // downscore player 2
-      scoreDown(2);
+      // scoreDown(2);
       break;
 
     case 32: // up arrow key // pause
@@ -282,11 +298,13 @@ $(document).keydown(function(e) {
         if (whoHasBuzzed == 1) {
           player1CanBuzz = false;
           player2CanBuzz = true;
+          $('#buzzerImgContainer').css({"display" : "none"});
           highlightPlayer(1);
         }
         else if (whoHasBuzzed == 2) {
           player1CanBuzz = true;
           player2CanBuzz = false;
+          $('#buzzerImgContainer').css({"display" : "none"});
           highlightPlayer(2);
         }
         startCountDown(distance);
@@ -294,12 +312,17 @@ $(document).keydown(function(e) {
       break;
 
     case 81: // Q key || player 1 buzzer
+      if (gameIsSetup) {
         hasBuzzed(1);
-        break;
+      }
+      break;
+
 
     case 77: // M key || player 2 buzzer
-        hasBuzzed(2);
-        break;
+      if (gameIsSetup) {
+      hasBuzzed(2);
+      }
+      break;
     }
     // add skip when no one finds that displays something mean
 });
@@ -312,8 +335,6 @@ var x;
 
 function startCountDown(t) {
   isPaused = false;
-  // reset distance
-  // distance = timeAvailable;
 
   // Set the date we're counting down to
   var d = new Date();
@@ -352,9 +373,3 @@ function stopCountDown() {
   isPaused = true;
   return distance;
 }
-
-
-
-// PROGRESS BAR
-// var ProgressBar = require(['progressbar.min.js']);
-// var line = new ProgressBar.Line('progressBarContainer');

@@ -14,6 +14,14 @@
     <div class="container">
 
       <div class="controls">
+        <p id="rules">
+          Let's make a Blind Test! <br>
+          Player 1 presses <b>Q</b> to buzz. <br>
+          Player 2 presses <b>M</b> to buzz. <br>
+          Referee presses <b>LEFT KEY</b> to score Player 1. <br>
+          Referee presses <b>RIGHT KEY</b> to score Player 2. <br>
+          Press <b>SPACE</b> to pause.
+        </p>
         <div id="playerSelection">
           <span>JOUEURS</span> <br>
           <input class="playerInput" id="playerInput1" type="text" name="" value="NOM JOUEUR 1"> &nbsp;
@@ -40,27 +48,33 @@
 
       </div>
 
-      <div id="image-container">
-        <img src="" id="displayedImg">
+      <div id="scoreContainer">
+        <div id="buzzerImgContainer">
+          <div id="gauge">
+          </div>
+            <img src="buzzer_bell.png" id="buzzerImg" alt="">
+        </div>
+        <div class="scoreBox" id="zonePlayer1">
+          <span class="playerName" id="player1">GERTRUDE</span>
+          <span id="scorePlayer1">0</span>
+        </div>
+        <div class="scoreBox" id="zonePlayer2">
+          <span id="scorePlayer2">0</span>
+          <span class="playerName" id="player2">IGOR</span>
+        </div>
       </div>
 
-      <div class="scoreBox" id="zonePlayer1">
-        <span class="playerName" id="player1">GERTRUDE</span> <br>
-        <span id="scorePlayer1">0</span>
-      </div>
-      <div class="scoreBox" id="zonePlayer2">
-        <span class="playerName" id="player2">IGOR</span> <br>
-        <span id="scorePlayer2">0</span>
+
+
+
+      <div id="image-container">
+        <img src="" id="displayedImg">
       </div>
 
 
       <div id="countDownContainer">
         <span id="countDown">00:00</span>
       </div>
-
-      <div id="progressBarContainer">
-      </div>
-
     </div>
 
 
