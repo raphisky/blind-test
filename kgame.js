@@ -164,6 +164,7 @@ function highlightPlayer(n) {
   playerToHighlight.classList.toggle("playerHighlighted");
 }
 
+var canSetScore = false;
 var gaugeHeight;
 var answerTime = 0;
 var y;
@@ -175,6 +176,7 @@ function timeToAnswer(p) {
   y = setInterval(function() {
     answerTime += 100;
     if (answerTime < 3000) {
+      canSetScore = true;
       setGaugeHeight(answerTime);
       return answerTime;
     }
@@ -184,6 +186,7 @@ function timeToAnswer(p) {
       $('#buzzerImgContainer').css({"display" : "none"});
       player1CanBuzz = true;
       player2CanBuzz = false;
+      canSetScore = false;
       gaugeHeight = 0;
       answerTime = 0;
       scoreDown(p);
@@ -215,23 +218,25 @@ var scorePlayer1 = 0;
 var scorePlayer2 = 0;
 
 function scoreUp(p) {
-  clearInterval(y);
-  answerTime = 0;
-  setGaugeHeight(answerTime);
-  if (p == whoHasBuzzed) {
-    if (p == "1") {
-      scorePlayer1 += 1;
-      zoneScorePlayer1.textContent = scorePlayer1;
-      highlightPlayer(1);
-      startGame();
-      return scorePlayer1;
-    }
-    else if (p == "2") {
-      scorePlayer2 += 1;
-      zoneScorePlayer2.textContent = scorePlayer2;
-      highlightPlayer(2);
-      startGame();
-      return scorePlayer2;
+  if (canSetScore) {
+    clearInterval(y);
+    answerTime = 0;
+    setGaugeHeight(answerTime);
+    if (p == whoHasBuzzed) {
+      if (p == "1") {
+        scorePlayer1 += 1;
+        zoneScorePlayer1.textContent = scorePlayer1;
+        highlightPlayer(1);
+        startGame();
+        return scorePlayer1;
+      }
+      else if (p == "2") {
+        scorePlayer2 += 1;
+        zoneScorePlayer2.textContent = scorePlayer2;
+        highlightPlayer(2);
+        startGame();
+        return scorePlayer2;
+      }
     }
   }
 }
